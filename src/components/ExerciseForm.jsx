@@ -24,7 +24,7 @@ const ExerciseForm = (props) => {
         <View style={styles.inputsContainer}>
           <View style={styles.inputsRowContainer}>
             <View style={[styles.inputContainer, styles.weightInput]}>
-              <Text>Peso</Text>
+              <Text style={styles.label}>Peso</Text>
               <TextInput
                 style={[styles.input, touched.weight && errors.weight && styles.errorInput]}
                 onChangeText={handleChange('weight')}
@@ -32,23 +32,23 @@ const ExerciseForm = (props) => {
                 placeholder='Peso'
                 keyboardType='number-pad'
                 value={values.weight}
-                />
+              />
               {touched.weight && errors.weight && <Text style={styles.errorMessage}>{errors.weight}</Text>}
             </View>
             <View style={styles.inputsRow}>
-              <Text>Lb</Text>
+              <Text style={styles.label}>Lb</Text>
               <Switch
-                trackColor={{false: '#3e3e3e', true: '#3e3e3e'}}
-                thumbColor={'#f4f3f4'}
-                ios_backgroundColor="#3e3e3e"
+                trackColor={{false: '#424242', true: '#424242'}}
+                thumbColor={'#F5F5F5'}
+                ios_backgroundColor="#424242"
                 onValueChange={() => handleWeightKg(values)}
                 value={weightKg}
               />
-              <Text>Kg</Text>
+              <Text style={styles.label}>Kg</Text>
             </View>
           </View>
           <View style={styles.inputContainer}>
-            <Text>Repeticiones</Text>
+            <Text style={styles.label}>Repeticiones</Text>
             <TextInput
               style={[styles.input, touched.reps && errors.reps && styles.errorInput]}
               onChangeText={handleChange('reps')}
@@ -62,7 +62,7 @@ const ExerciseForm = (props) => {
           {isBlock && (
             <>
               <View style={styles.inputContainer}>
-                <Text>Variante</Text>
+                <Text style={styles.label}>Variante</Text>
                 <View style={styles.input}>
                   <SelectPicker
                     value={values.variation}
@@ -86,7 +86,7 @@ const ExerciseForm = (props) => {
               </View>
               {values.variation === 'other' && (
                 <View style={styles.inputContainer}>
-                  <Text>Otra variante</Text>
+                  <Text style={styles.label}>Otra variante</Text>
                     <TextInput
                       style={styles.input}
                       onChangeText={handleChange('otherVariant')}
@@ -112,8 +112,8 @@ const ExerciseForm = (props) => {
             {touched.otherVariant && errors.otherVariant && <Text style={styles.errorMessage}>{errors.otherVariant}</Text>}
           </View> */}
           <View style={styles.buttonsContainer}>
-            <Button onPress={handleSubmit} title="Agregar serie" disabled={!(isValid && dirty)} />
-            <Button onPress={() => setShowForm(false)} title="Cancelar" />
+            <Button color='#0000F5' onPress={handleSubmit} title="Agregar serie" disabled={!(isValid && dirty)} />
+            <Button color='#0000F5' onPress={() => setShowForm(false)} title="Cancelar" />
           </View>
         </View>
       )}
@@ -147,6 +147,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 4,
     paddingHorizontal: 8,
+  },
+  label: {
+    color: '#424242',
   },
   weightInput: {
     width: '70%'

@@ -19,7 +19,7 @@ function ExerciseCard(props) {
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    backgroundColor: '#FFF',
+    backgroundColor: '#F5F5F5',
     borderRadius: 8,
     marginVertical: 8,
     marginHorizontal: 16,
@@ -27,7 +27,6 @@ const styles = StyleSheet.create({
     elevation: 2,
     borderStyle: 'solid',
     borderWidth: 1,
-    borderColor: '#FFF',
   },
   content: {
     flex: 1,
@@ -37,27 +36,28 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 4,
+    color: '#424242'
   },
   subtitle: {
     fontSize: 14,
     fontWeight: 'bold',
-    color: '#999',
+    color: '#424242',
     marginBottom: 8,
   },
   brazo: {
-    borderColor: '#DC143C'
+    borderColor: '#BF7EFF'
   },
   espalda: {
-    borderColor: '#3CB371'
+    borderColor: '#FF2400'
   },
   hombro: {
-    borderColor: '#9370DB'
+    borderColor: '#00C5CD'
   },
   pecho: {
     borderColor: '#DAA520'
   },
   pierna: {
-    borderColor: '#1E90FF'
+    borderColor: '#32CD32'
   },
 });
 

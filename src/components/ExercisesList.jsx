@@ -20,6 +20,7 @@ function ExercisesList(props) {
 const styles = StyleSheet.create({
   listContainer: {
     paddingVertical: 8,
+    backgroundColor: '#F5F5F5'
   },
 });
 

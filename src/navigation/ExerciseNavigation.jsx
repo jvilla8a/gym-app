@@ -9,7 +9,7 @@ const Stack = createNativeStackNavigator();
 const ExerciseNavigation = () => {
   return(
     <Stack.Navigator>
-      <Stack.Screen name='Exercises' component={Train} options={{ title: 'Entranamiento' }} />
+      <Stack.Screen  name='Exercises' component={Train} options={{ title: 'Entranamiento', headerShown: false }} />
       <Stack.Screen name='Exercise' component={Exercise} />
     </Stack.Navigator>
   );

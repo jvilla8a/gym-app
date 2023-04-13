@@ -26,7 +26,7 @@ const BlockCard = (props) => {
         ))}
       </View>
       <View style={[styles.blockFooter, current && styles.blockFooterHorizontal]}>
-        <Text style={[styles.variation, current && styles.variationHorizontal]}>{`${variation} ${current ? ' | ' : ''}`}</Text>
+        <Text style={[styles.variation, current && styles.variationHorizontal]}>{`${variation ? `${variation} ${current ? `|` : ''}` : ''}`}</Text>
         <Text style={styles.date}>{`${date.seconds ? date.toDate().toLocaleDateString() : date.toLocaleDateString()}${current ? ' - ' : ''}`}</Text>
         <Text style={styles.time}>{date.seconds ? date.toDate().toLocaleTimeString() : date.toLocaleTimeString()}</Text>
       </View>
@@ -36,7 +36,7 @@ const BlockCard = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    borderColor: '#999',
+    borderColor: '#D3D3D3',
     borderWidth: 1,
     borderStyle: 'solid',
     borderRadius: 4,
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
   weightContainer: {
     paddingRight: 8,
     marginRight: 8,
-    borderColor: '#999',
+    borderColor: '#D3D3D3',
     borderStyle: 'solid',
     borderRightWidth: 1,
   },
@@ -79,23 +79,22 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: 'bold',
     textAlign: 'center',
+    color: '#424242'
   },
   subtitle: {
     fontSize: 20,
     fontWeight: 'bold',
     textAlign: 'center',
-    color: '#777'
-  },
-  black: {
-    color: '#000',
+    color: '#858585'
   },
   variation: {
     textAlign: 'center',
-    marginBottom: 4,
+    marginBottom: 8,
+    color: '#858585',
+    fontSize: 12,
   },
   variationHorizontal: {
     marginBottom: 0,
-    minHeight: 'auto',
     marginRight: 8,
   },
   indicators: {
@@ -105,7 +104,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 12,
   },
   indicatorsItem: {
-    color: '#999',
+    color: '#858585',
     fontSize: 20,
     fontWeight: 'bold',
   },
@@ -121,15 +120,15 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   date: {
-    color: '#999',
+    color: '#858585',
     textAlign: 'center',
   },
   time: {
-    color: '#999',
+    color: '#858585',
     textAlign: 'center',
   },
   blockFooter: {
-    backgroundColor: '#e6e6e6',
+    backgroundColor: '#E0E0E0',
     paddingVertical: 8,
     justifyContent: 'center',
   },

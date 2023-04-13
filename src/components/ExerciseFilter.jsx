@@ -20,8 +20,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 8,
     paddingVertical: 8,
-    backgroundColor: '#FFF',
-    borderBottomColor: '#EDEDED',
+    borderBottomColor: '#D3D3D3',
     borderBottomWidth: 1,
     borderStyle: 'solid',
   },
@@ -30,6 +29,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-evenly',
     alignItems: 'center',
+    backgroundColor: '##F5F5F5',
   },
 });
 

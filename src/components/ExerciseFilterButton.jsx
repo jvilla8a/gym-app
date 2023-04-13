@@ -16,18 +16,18 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     paddingVertical: 8,
     paddingHorizontal: 10,
-    backgroundColor: '#EDEDED'
+    backgroundColor: '#E0E0E0'
   },
   activeFilter: {
-    backgroundColor: '#2D9CDB'
+    backgroundColor: '#0000FF'
   },
   label: {
-    color: '#6B6B6B',
+    color: '#424242',
     fontSize: 14,
     fontWeight: 'bold'
   },
   activeLabel: {
-    color: '#FFF'
+    color: '#F5F5F5'
   },
 });
 

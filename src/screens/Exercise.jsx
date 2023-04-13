@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Keyboard, TouchableWithoutFeedback, Button, FlatList } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import ExerciseForm from '../components/ExerciseForm';
 import BlockCard from '../components/BlockCard';
-import useLoader from '../hooks/useLoader';
 import Loader from '../components/Loader';
+import useLoader from '../hooks/useLoader';
 import { getExerciseById } from '../api/exercise';
 import { addWorkout, getLatestWorkoutsByExerciseId } from '../api/workout';
 
@@ -12,6 +13,7 @@ const Exercise = (props) => {
   const { route: { params: { exerciseId } } } = props;
   const [loading, setLoading] = useLoader();
   const [showForm, setShowForm] = useState(false);
+  const [isVisible, setIsVisible] = useState(false)
   const [currentBlock, setCurrentBlock] = useState({});
   const [exercise, setExercise] = useState(null);
   const [latestRecords, setLatestRecords] = useState([]);
@@ -60,6 +62,10 @@ const Exercise = (props) => {
     }
   };
 
+  const onClose = () => {
+    console.log('CLOSED');
+  };
+
   useEffect(() => {
     handleGetExerciseDetails();
   }, []);
@@ -72,18 +78,24 @@ const Exercise = (props) => {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
         <View style={[styles.exerciseContainer, styles[exercise?.muscleGroup?.toLowerCase()]]}>
-          <Text style={styles.title}>{exercise?.name || ''}</Text>
-          <Text style={styles.subtitle}>{exercise?.muscleGroup || ''}</Text>
+          <View>
+            <Text style={styles.title}>{exercise?.name || ''}</Text>
+            <Text style={styles.subtitle}>{exercise?.muscleGroup || ''}</Text>
+          </View>
+          <View style={styles.filterContainer}>
+            <Icon name='filter-outline' color='#D3D3D3' size={30} onPress={() => setIsVisible(true)} />
+            {/* <Icon name='filter-check' color='#D3D3D3' size={30} /> */}
+          </View>
         </View>
         {!showForm && (
           <View style={styles.buttonsContainer}>
             {currentBlock.exercise ? (
               <>
-                <Button onPress={() => handleSaveBlock()} title='Terminar Bloque' />
-                <Button onPress={() => setShowForm(true)} title='Agregar Serie' />
+                <Button color='#0000F5' onPress={() => handleSaveBlock()} title='Terminar Bloque' />
+                <Button color='#0000F5' onPress={() => setShowForm(true)} title='Agregar Serie' />
               </>
             ) : (
-              <Button onPress={() => setShowForm(true)} title='Comenzar Bloque' />
+              <Button color='#0000F5' onPress={() => setShowForm(true)} title='Comenzar Bloque' />
             )}
           </View>
         )}
@@ -121,7 +133,7 @@ const Exercise = (props) => {
         </View>
         <View style={styles.sectionContainer}>
           <Text style={styles.sectionTitle}>Record</Text>
-          {/* <FlatList data={variations} renderItem={renderItem} keyExtractor={item => item.id} /> */}
+          <Text style={styles.paragraph}>No hay registros</Text>
         </View>
       </View>
     </TouchableWithoutFeedback>
@@ -130,12 +142,16 @@ const Exercise = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#FFF',
+    backgroundColor: '#F5F5F5'
   },
   exerciseContainer: {
-    paddingHorizontal: 16,
-    paddingTop: 16,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 16,
+    borderBottomWidth: 8,
+    borderStyle: 'solid',
+    backgroundColor: '#0000FF'
   },
   buttonsContainer: {
     marginVertical: 16,
@@ -153,42 +169,43 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 8,
-    color: 'black',
+    color: '#F5F5F5',
+    marginBottom: 4,
   },
   subtitle: {
     fontSize: 16,
     fontWeight: 'bold',
-    marginBottom: 16
+    color: '#D3D3D3',
   },
   paragraph: {
-    color: '#ccc',
+    color: '#858585',
     textAlign: 'center',
     marginVertical: 4,
   },
   sectionTitle: {
     fontSize: 16,
     fontWeight: 'bold',
-    marginBottom: 6
+    marginBottom: 6,
+    color: '#424242',
   },
   variation: {
     fontSize: 14,
     marginBottom: 8
   },
   brazo: {
-    backgroundColor: '#DC143C'
+    borderColor: '#BF7EFF'
   },
   espalda: {
-    backgroundColor: '#3CB371'
+    borderColor: '#FF0000'
   },
   hombro: {
-    backgroundColor: '#9370DB'
+    borderColor: '#00C5CD'
   },
   pecho: {
-    backgroundColor: '#DAA520'
+    borderColor: '#DAA520'
   },
   pierna: {
-    backgroundColor: '#1E90FF'
+    borderColor: '#32CD32'
   },
 });
 
