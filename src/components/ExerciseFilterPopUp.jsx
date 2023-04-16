@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Modal, Text, TouchableOpacity, Button } from 'react-native';
+import { View, Modal, Text, TouchableOpacity, Button, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import CheckBox from './CheckBox';
@@ -42,14 +42,16 @@ const BottomPopup = (props) => {
               <Button color='#4C00A4' onPress={handleCleanFilter} title='Limpiar' disabled={!currentFilter} />
             </View>
           </View>
-          {['No Variación', ...variation].map((item, index) => (
-            <CheckBox
+          <ScrollView style={styles.listContainer}>
+            {['No Variación', ...variation].map((item, index) => (
+              <CheckBox
               key={index}
               label={item}
               onPress={() => setFilter(filter === item ? '' : item)}
               isChecked={filter === item}
-            />
-          ))}
+              />
+            ))}
+          </ScrollView>
         </View>
       </View>
     </Modal>
@@ -67,7 +69,7 @@ const styles = {
     padding: 12,
   },
   modalContent: {
-    maxHeight: 300,
+    maxHeight: 400,
     backgroundColor: '#F5F5F5',
     padding: 16,
     paddingBottom: 24,
@@ -80,10 +82,16 @@ const styles = {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 12,
+    paddingBottom: 8,
+    borderStyle: 'solid',
+    borderBottomWidth: 1,
+    borderColor: '#424242'
   },
   buttonsContainer: {
     flexDirection: 'row',
+  },
+  listContainer: {
+    paddingTop: 8,
   },
 };
 
