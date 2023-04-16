@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#E0E0E0'
   },
   activeFilter: {
-    backgroundColor: '#0000FF'
+    backgroundColor: '#4C00A4'
   },
   label: {
     color: '#424242',

@@ -122,10 +122,12 @@ const styles = StyleSheet.create({
   date: {
     color: '#858585',
     textAlign: 'center',
+    fontSize: 12,
   },
   time: {
     color: '#858585',
     textAlign: 'center',
+    fontSize: 12,
   },
   blockFooter: {
     backgroundColor: '#E0E0E0',

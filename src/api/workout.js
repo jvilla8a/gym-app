@@ -43,7 +43,29 @@ export const getLatestWorkoutsByExerciseId = async (id) =>  {
   } catch (error) {
     console.error(error);
   }
-}
+};
+
+export const getLatestWorkoutsByExerciseIdNVariation = async (id, variation) => {
+  try {
+    const data = [];
+    const exercise = doc(db, 'exercises', id)
+    const _query = query(
+      collection(db, 'workoutExercises'),
+      where('exercise', '==', exercise),
+      where('variation', '==', variation === 'No Variación' ? '' : variation),
+      limit(3),
+      orderBy('date', 'desc')
+    );
+    const request = await getDocs(_query);
+    request.forEach(async (item) => {
+      data.push({ id: item.id, ...item.data() })
+    });
+
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};
 
 export const getLatestWorkoutsByExerciseRef = async (ref) => {
   try {

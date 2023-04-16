@@ -112,8 +112,8 @@ const ExerciseForm = (props) => {
             {touched.otherVariant && errors.otherVariant && <Text style={styles.errorMessage}>{errors.otherVariant}</Text>}
           </View> */}
           <View style={styles.buttonsContainer}>
-            <Button color='#0000F5' onPress={handleSubmit} title="Agregar serie" disabled={!(isValid && dirty)} />
-            <Button color='#0000F5' onPress={() => setShowForm(false)} title="Cancelar" />
+            <Button color='#4C00A4' onPress={handleSubmit} title="Agregar serie" disabled={!(isValid && dirty)} />
+            <Button color='#4C00A4' onPress={() => setShowForm(false)} title="Cancelar" />
           </View>
         </View>
       )}
