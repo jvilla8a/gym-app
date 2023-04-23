@@ -8,7 +8,12 @@ import ExerciseFilterPopUp from '../components/ExerciseFilterPopUp';
 import Loader from '../components/Loader';
 import useLoader from '../hooks/useLoader';
 import { getExerciseById } from '../api/exercise';
-import { addWorkout, getLatestWorkoutsByExerciseId, getLatestWorkoutsByExerciseIdNVariation } from '../api/workout';
+import {
+  addWorkout,
+  getLatestWorkoutsByExerciseId,
+  getLatestWorkoutsByExerciseIdNVariation,
+  getRecordByExerciseId
+} from '../api/workout';
 
 const Exercise = (props) => {
   const { route: { params: { exerciseId } } } = props;
@@ -19,6 +24,7 @@ const Exercise = (props) => {
   const [currentBlock, setCurrentBlock] = useState({});
   const [exercise, setExercise] = useState(null);
   const [latestRecords, setLatestRecords] = useState([]);
+  const [record, setRecord] = useState({});
   const [loaded, setLoaded] = useState(false);
 
   const handleSaveBlock = async () => {
@@ -92,9 +98,11 @@ const Exercise = (props) => {
       setLoading(true);
       const exerciseData = await getExerciseById(exerciseId);
       const workoutsData = await getLatestWorkoutsByExerciseId(exerciseId);
+      const recordData = await getRecordByExerciseId(exerciseId);
 
       setExercise(exerciseData);
       setLatestRecords(workoutsData);
+      setRecord(recordData);
     } catch (error) {
       console.error(error)
     } finally {
@@ -127,14 +135,16 @@ const Exercise = (props) => {
               <Text style={styles.title}>{exercise?.name || ''}</Text>
               <Text style={styles.subtitle}>{exercise?.muscleGroup || ''}</Text>
             </View>
-            <View style={styles.filterContainer}>
-              <Icon
-                name={filter ? 'filter-check' : 'filter-outline'}
-                color='#D3D3D3'
-                size={30}
-                onPress={() => setModalFilter(true)}
-              />
-            </View>
+            {(latestRecords.length > 0 || filter) && (
+              <View style={styles.filterContainer}>
+                <Icon
+                  name={filter ? 'filter-check' : 'filter-outline'}
+                  color='#D3D3D3'
+                  size={30}
+                  onPress={() => setModalFilter(true)}
+                />
+              </View>
+            )}
           </View>
           {!showForm && (
             <View style={styles.buttonsContainer}>
@@ -182,7 +192,21 @@ const Exercise = (props) => {
           </View>
           <View style={styles.sectionContainer}>
             <Text style={styles.sectionTitle}>Record</Text>
-            <Text style={styles.paragraph}>No hay registros</Text>
+            {record?.id ? (
+              <>
+                {/* <Text>{record.id}</Text>
+                {record.series.map((serie, index) => (
+                  <View key={index}>
+                    <Text>{serie.weight}</Text>
+                    <Text>{serie.reps}</Text>
+                  </View>
+                ))}
+                <Text>{record.date.toDate().toLocaleDateString()}</Text> */}
+                <BlockCard block={record} current />
+              </>
+            ) : (
+              <Text style={styles.paragraph}>No hay registros</Text>
+            )}
           </View>
         </View>
         <ExerciseFilterPopUp
