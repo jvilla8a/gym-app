@@ -13,17 +13,18 @@ const BlockCard = (props) => {
         </View>
       )}
       <View style={[styles.weightsContainer, !current && styles.vertical]}>
-        {series.map((item, index) => ( current ?
+        {series.map((item, index) => ( current ? (
           <View key={index} style={[styles.weightContainer, series.length-1 === index && styles.lastItem]}>
             <Text style={styles.title}>{`${item.weight} ${item.weightKg ? 'Kg' : 'Lb'}`}</Text>
             <Text style={styles.subtitle}>{`${item.reps} Rps`}</Text>
-          </View> : 
+          </View>
+        ) : (
           <View key={index} style={styles.weightDetails}>
             <Text style={styles.weightDetailsItem}>{item.weight}</Text>
             <Text>|</Text>
             <Text style={styles.weightDetailsItem}>{item.reps}</Text>
           </View>
-        ))}
+        )))}
       </View>
       <View style={[styles.blockFooter, current && styles.blockFooterHorizontal]}>
         <Text style={[styles.variation, current && styles.variationHorizontal]}>{`${variation ? `${variation} ${current ? `|` : ''}` : ''}`}</Text>

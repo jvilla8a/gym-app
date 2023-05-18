@@ -7,17 +7,17 @@ import {
   query,
   where,
   limit,
-  orderBy
-} from 'firebase/firestore';
+  orderBy,
+} from "firebase/firestore";
 
-import { db } from '../utils/firebase';
-import { poundToKilo } from '../utils/conversions'
+import { db } from "../utils/firebase";
+import { poundToKilo } from "../utils/conversions";
 
 export const addWorkout = async (values) => {
   try {
-    values.exercise = doc(db, 'exercises', values.exercise);
+    values.exercise = doc(db, "exercises", values.exercise);
     values.date = Timestamp.fromDate(values.date);
-    const request = await addDoc(collection(db, 'workoutExercises'), values);
+    const request = await addDoc(collection(db, "workoutExercises"), values);
 
     return request;
   } catch (error) {
@@ -25,19 +25,20 @@ export const addWorkout = async (values) => {
   }
 };
 
-export const getLatestWorkoutsByExerciseId = async (id) =>  {
+export const getLatestWorkoutsByExerciseId = async (id, user) => {
   try {
     const data = [];
-    const exercise = doc(db, 'exercises', id)
+    const exercise = doc(db, "exercises", id);
     const _query = query(
-      collection(db, 'workoutExercises'),
-      where('exercise', '==', exercise),
+      collection(db, "workoutExercises"),
+      where("user", "==", user),
+      where("exercise", "==", exercise),
       limit(3),
-      orderBy('date', 'desc')
+      orderBy("date", "desc")
     );
     const request = await getDocs(_query);
     request.forEach(async (item) => {
-      data.push({ id: item.id, ...item.data() })
+      data.push({ id: item.id, ...item.data() });
     });
 
     return data;
@@ -46,20 +47,25 @@ export const getLatestWorkoutsByExerciseId = async (id) =>  {
   }
 };
 
-export const getLatestWorkoutsByExerciseIdNVariation = async (id, variation) => {
+export const getLatestWorkoutsByExerciseIdNVariation = async (
+  id,
+  variation,
+  user
+) => {
   try {
     const data = [];
-    const exercise = doc(db, 'exercises', id)
+    const exercise = doc(db, "exercises", id);
     const _query = query(
-      collection(db, 'workoutExercises'),
-      where('exercise', '==', exercise),
-      where('variation', '==', variation === 'No Variación' ? '' : variation),
+      collection(db, "workoutExercises"),
+      where("user", "==", user),
+      where("exercise", "==", exercise),
+      where("variation", "==", variation === "No Variación" ? "" : variation),
       limit(3),
-      orderBy('date', 'desc')
+      orderBy("date", "desc")
     );
     const request = await getDocs(_query);
     request.forEach(async (item) => {
-      data.push({ id: item.id, ...item.data() })
+      data.push({ id: item.id, ...item.data() });
     });
 
     return data;
@@ -68,39 +74,20 @@ export const getLatestWorkoutsByExerciseIdNVariation = async (id, variation) => 
   }
 };
 
-export const getLatestWorkoutsByExerciseRef = async (ref) => {
+export const getLatestWorkoutsByExerciseRef = async (ref, user) => {
   try {
     const data = [];
     const _query = query(
-      collection(db, 'workoutExercises'),
-      where('exercise', '==', ref),
+      collection(db, "workoutExercises"),
+      where("user", "==", user),
+      where("exercise", "==", ref),
       limit(3),
-      orderBy('date', 'desc')
+      orderBy("date", "desc")
     );
     const request = await getDocs(_query);
 
     request.forEach((item) => {
-      data.push({ id: item.id, ...item.data() })
-    });
-
-    return data;
-  } catch (error) {
-    console.error(error)
-  }
-};
-
-export const getAllWorkoutsByExerciseId = async (id) => {
-  try {
-    const data = [];
-    const exercise = doc(db, 'exercises', id)
-    const _query = query(
-      collection(db, 'workoutExercises'),
-      where('exercise', '==', exercise),
-      orderBy('date', 'asc')
-    );
-    const request = await getDocs(_query);
-    request.forEach(async (item) => {
-      data.push({ id: item.id, ...item.data() })
+      data.push({ id: item.id, ...item.data() });
     });
 
     return data;
@@ -109,36 +96,73 @@ export const getAllWorkoutsByExerciseId = async (id) => {
   }
 };
 
-export const getRecordByExerciseId = async (id) => {
+export const getAllWorkoutsByExerciseId = async (id, user) => {
   try {
-    const allWorkouts = await getAllWorkoutsByExerciseId(id);
+    const data = [];
+    const exercise = doc(db, "exercises", id);
+    const _query = query(
+      collection(db, "workoutExercises"),
+      where("user", "==", user),
+      where("exercise", "==", exercise),
+      orderBy("date", "asc")
+    );
+    const request = await getDocs(_query);
+    request.forEach(async (item) => {
+      data.push({ id: item.id, ...item.data() });
+    });
+
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const getRecordByExerciseId = async (id, user) => {
+  try {
+    const allWorkouts = await getAllWorkoutsByExerciseId(id, user);
 
     let record = allWorkouts[0];
-    allWorkouts.forEach((workout) => {
-      const recordWeight = record.series.sort((a, b) => b.weight - a.weight)[0];
-      const workoutWeight = workout.series.sort((a, b) => b.weight - a.weight)[0];
+    if (record) {
+      allWorkouts.forEach((workout) => {
+        const recordWeight = record.series.sort(
+          (a, b) => b.weight - a.weight
+        )[0];
+        const workoutWeight = workout.series.sort(
+          (a, b) => b.weight - a.weight
+        )[0];
 
-      
-      if(recordWeight.weightKg === workoutWeight.weightKg) {
-        if(parseInt(workoutWeight.weight) > parseInt(recordWeight.weight)) record = workout
-        else if(parseInt(workoutWeight.weight) === parseInt(recordWeight.weight)) {
-          if(parseInt(workoutWeight.reps) >= parseInt(recordWeight.reps)) record = workout
+        if (recordWeight.weightKg === workoutWeight.weightKg) {
+          if (parseInt(workoutWeight.weight) > parseInt(recordWeight.weight))
+            record = workout;
+          else if (
+            parseInt(workoutWeight.weight) === parseInt(recordWeight.weight)
+          ) {
+            if (parseInt(workoutWeight.reps) >= parseInt(recordWeight.reps))
+              record = workout;
+          }
+        } else {
+          const recordWeightC = recordWeight.weightKg
+            ? recordWeight.weight
+            : poundToKilo(recordWeight.weight);
+          const workoutWeightC = workoutWeight.weightKg
+            ? workoutWeight.weight
+            : poundToKilo(workoutWeight.weight);
+
+          if (workoutWeightC > recordWeightC) record = workout;
+          else if (workoutWeightC === recordWeightC) {
+            if (parseInt(workoutWeight.reps) >= parseInt(recordWeight.reps))
+              record = workout;
+          }
         }
-      } else {
-        const recordWeightC = recordWeight.weightKg ? recordWeight.weight : poundToKilo(recordWeight.weight);
-        const workoutWeightC = workoutWeight.weightKg ? workoutWeight.weight : poundToKilo(workoutWeight.weight);
-        
-        if(workoutWeightC > recordWeightC) record = workout
-        else if(workoutWeightC === recordWeightC) {
-          if(parseInt(workoutWeight.reps) >= parseInt(recordWeight.reps)) record = workout
-        }
-      }
-    });
-    
-    record.series = [record.series[0]];
-    return record;
+      });
+
+      record.series = [record?.series[0]] || [];
+      return record;
+    }
+
+    return false;
   } catch (error) {
-    console.error(error); 
+    console.error(error);
   }
 };
 
@@ -161,6 +185,6 @@ export const getRecordByExerciseId = async (id) => {
 
 //     return record;
 //   } catch (error) {
-//     console.error(error); 
+//     console.error(error);
 //   }
 // };

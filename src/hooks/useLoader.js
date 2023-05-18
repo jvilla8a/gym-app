@@ -1,9 +1,12 @@
-import { useState } from "react";
+import { useContext } from "react";
+
+import Context from "../utils/context";
 
 const useLoader = () => {
-  const [loading, setLoading] = useState(true);
+  if (!Context) return null;
+  const { loader, setLoader } = useContext(Context);
 
-  return [loading, setLoading];
+  return { loader, setLoader };
 };
 
 export default useLoader;
