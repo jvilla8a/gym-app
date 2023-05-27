@@ -1,11 +1,17 @@
-import React from 'react';
-import { TouchableOpacity, View, Text, StyleSheet } from 'react-native';
+import React from "react";
+import { TouchableOpacity, View, Text, StyleSheet } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 function ExerciseCard(props) {
-  const { exercise: { item }, handleNavigation } = props;
+  const {
+    exercise: { item },
+  } = props;
+  const navigation = useNavigation();
 
   return (
-    <TouchableOpacity onPress={() => handleNavigation({ exerciseId: item.id })}>
+    <TouchableOpacity
+      onPress={() => navigation.navigate("Exercise", { exerciseId: item.id })}
+    >
       <View style={[styles.container, styles[item.muscleGroup.toLowerCase()]]}>
         <View style={styles.content}>
           <Text style={styles.title}>{item.name}</Text>
@@ -14,50 +20,50 @@ function ExerciseCard(props) {
       </View>
     </TouchableOpacity>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    backgroundColor: '#F5F5F5',
+    flexDirection: "row",
+    backgroundColor: "#F5F5F5",
     borderRadius: 8,
     marginVertical: 8,
     marginHorizontal: 16,
-    overflow: 'hidden',
+    overflow: "hidden",
     elevation: 2,
-    borderStyle: 'solid',
-    borderWidth: 1,
+    borderStyle: "solid",
+    borderWidth: 2,
   },
   content: {
     flex: 1,
-    padding: 16,
+    paddingVertical: 8,
+    paddingHorizontal: 16,
   },
   title: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 4,
-    color: '#424242'
+    fontFamily: "FiraB",
+    fontSize: 20,
+    color: "#424242",
   },
   subtitle: {
+    fontFamily: "FiraR",
     fontSize: 14,
-    fontWeight: 'bold',
-    color: '#424242',
-    marginBottom: 8,
+    color: "#858585",
+    marginBottom: 4,
   },
   brazo: {
-    borderColor: '#BF7EFF'
+    borderColor: "#BF7EFF",
   },
   espalda: {
-    borderColor: '#FF2400'
+    borderColor: "#FF2400",
   },
   hombro: {
-    borderColor: '#00C5CD'
+    borderColor: "#00C5CD",
   },
   pecho: {
-    borderColor: '#DAA520'
+    borderColor: "#DAA520",
   },
   pierna: {
-    borderColor: '#32CD32'
+    borderColor: "#32CD32",
   },
 });
 

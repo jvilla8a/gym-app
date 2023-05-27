@@ -1,6 +1,7 @@
 import React from "react";
 import { Text } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 import ExerciseNaviagtion from "./ExerciseNavigation";
@@ -12,7 +13,8 @@ import Loader from "../components/Loader";
 import useAuth from "../hooks/useAuth";
 import useLoader from "../hooks/useLoader";
 
-const Tab = createBottomTabNavigator();
+const Tab = createBottomTabNavigator(); // Usar tabs cuando se creen las otras paginas
+const Stack = createNativeStackNavigator();
 
 const Navigation = () => {
   const { user } = useAuth();
@@ -21,8 +23,8 @@ const Navigation = () => {
   return (
     <>
       {user ? (
-        <Tab.Navigator>
-          <Tab.Screen
+        <Stack.Navigator>
+          {/* <Tab.Screen
             name="Home"
             component={Home}
             options={{
@@ -45,8 +47,8 @@ const Navigation = () => {
                 />
               ),
             }}
-          />
-          <Tab.Screen
+          /> */}
+          <Stack.Screen
             name="Train"
             component={ExerciseNaviagtion}
             options={{
@@ -70,7 +72,7 @@ const Navigation = () => {
               ),
             }}
           />
-          <Tab.Screen
+          {/* <Tab.Screen
             name="Dashboard"
             component={Dashboard}
             options={{
@@ -93,8 +95,8 @@ const Navigation = () => {
                 />
               ),
             }}
-          />
-          <Tab.Screen
+          /> */}
+          {/* <Tab.Screen
             name="User"
             component={User}
             options={{
@@ -117,8 +119,8 @@ const Navigation = () => {
                 />
               ),
             }}
-          />
-        </Tab.Navigator>
+          /> */}
+        </Stack.Navigator>
       ) : (
         <LogIn />
       )}

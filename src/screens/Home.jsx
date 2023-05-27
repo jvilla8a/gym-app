@@ -9,7 +9,8 @@ import {
 } from "react-native";
 
 import useAuth from "../hooks/useAuth";
-
+// TODO: Manejo de errores
+// Modo nocturno
 const Home = () => {
   const { user } = useAuth();
 

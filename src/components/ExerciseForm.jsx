@@ -9,12 +9,15 @@ import {
   TextInput,
   Button,
   Switch,
+  TouchableOpacity,
 } from "react-native";
 
 import { EXERCISE_RECORD } from "../utils/forms";
 // TODOS:
 // Usar formik hooks
 // Mejorar picker en ios
+// Usar inputs custom para estandarizar los estilos
+// Mejorar los estilos del select
 const ExerciseForm = (props) => {
   const { initialValues, validationSchema } = EXERCISE_RECORD;
   const { handleFormSubmit, variation = [], setShowForm, isBlock } = props;
@@ -148,17 +151,29 @@ const ExerciseForm = (props) => {
             {touched.otherVariant && errors.otherVariant && <Text style={styles.errorMessage}>{errors.otherVariant}</Text>}
           </View> */}
           <View style={styles.buttonsContainer}>
-            <Button
-              color="#4C00A4"
+            <TouchableOpacity
+              style={[
+                styles.button,
+                !(isValid && dirty) && styles.buttonDisabled,
+              ]}
               onPress={handleSubmit}
-              title="Agregar serie"
               disabled={!(isValid && dirty)}
-            />
-            <Button
-              color="#4C00A4"
+            >
+              <Text
+                style={[
+                  styles.buttonLabel,
+                  !(isValid && dirty) && styles.buttonLabelDisabled,
+                ]}
+              >
+                Agregar serie
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.button}
               onPress={() => setShowForm(false)}
-              title="Cancelar"
-            />
+            >
+              <Text style={styles.buttonLabel}>Cancelar</Text>
+            </TouchableOpacity>
           </View>
         </View>
       )}
@@ -186,6 +201,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   input: {
+    fontFamily: "FiraR",
     height: 40,
     justifyContent: "center",
     borderColor: "#DDD",
@@ -194,21 +210,48 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
   },
   label: {
+    fontFamily: "FiraL",
+    fontSize: 16,
     color: "#424242",
+  },
+  button: {
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderColor: "#4C00A4",
+    borderWidth: 1,
+    borderStyle: "solid",
+    borderRadius: 4,
+  },
+  buttonDisabled: {
+    borderColor: "#424242",
+    borderWidth: 1,
+    borderStyle: "solid",
+    borderRadius: 4,
+    backgroundColor: "#DDDDDD",
+  },
+  buttonLabelDisabled: {
+    color: "#424242",
+  },
+  buttonLabel: {
+    color: "#4C00A4",
+    fontSize: 18,
+    fontFamily: "FiraR",
   },
   weightInput: {
     width: "70%",
   },
   errorMessage: {
-    color: "red",
+    color: "#FF2400",
     fontSize: 10,
+    textAlign: "right",
+    fontFamily: "FiraM",
   },
   errorInput: {
-    borderColor: "red",
+    borderColor: "#FF2400",
   },
   buttonsContainer: {
     flexDirection: "row",
-    justifyContent: "space-around",
+    justifyContent: "space-evenly",
     marginVertical: 8,
   },
 });

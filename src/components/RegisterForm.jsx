@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
     borderStyle: "solid",
   },
   inputContainer: {
-    marginBottom: 8,
+    marginBottom: 4,
   },
   input: {
     height: 44,
@@ -173,17 +173,18 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   label: {
+    fontFamily: "FiraL",
     color: "#F5F5F5",
     fontSize: 16,
-    marginBottom: 4,
   },
   errorMessage: {
-    color: "red",
-    fontSize: 12,
-    marginTop: 4,
+    color: "#FF2400",
+    fontSize: 10,
+    textAlign: "right",
+    fontFamily: "FiraM",
   },
   errorInput: {
-    borderColor: "red",
+    borderColor: "#FF2400",
   },
   buttonsContainer: {
     marginVertical: 8,
@@ -201,13 +202,11 @@ const styles = StyleSheet.create({
   buttonLabelContainer: {
     flexDirection: "row",
     alignItems: "center",
-    marginLeft: 4,
   },
   buttonLabel: {
+    fontFamily: "FiraB",
     fontSize: 16,
     color: "#424242",
-    marginLeft: 8,
-    fontWeight: "bold",
   },
 });
 

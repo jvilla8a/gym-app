@@ -11,7 +11,8 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 import { LOGIN } from "../utils/forms";
 import useAuth from "../hooks/useAuth";
-
+// TODO: hacer componenetes input propios para no repetir estilos and shit
+// Hacer componente boton propio also
 const LoginForm = () => {
   const { initialValues, validationSchema } = LOGIN;
   const { signIn } = useAuth();
@@ -92,10 +93,11 @@ const styles = StyleSheet.create({
     borderStyle: "solid",
   },
   inputContainer: {
-    marginBottom: 8,
+    marginBottom: 4,
   },
   input: {
     height: 44,
+    fontFamily: "FiraR",
     justifyContent: "center",
     backgroundColor: "#f5f5f551",
     borderColor: "#F5F5F5",
@@ -106,17 +108,18 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   label: {
+    fontFamily: "FiraL",
     color: "#F5F5F5",
     fontSize: 16,
-    marginBottom: 4,
   },
   errorMessage: {
-    color: "red",
-    fontSize: 12,
-    marginTop: 4,
+    color: "#FF2400",
+    fontSize: 10,
+    textAlign: "right",
+    fontFamily: "FiraM",
   },
   errorInput: {
-    borderColor: "red",
+    borderColor: "#FF2400",
   },
   buttonsContainer: {
     marginVertical: 8,
@@ -137,10 +140,9 @@ const styles = StyleSheet.create({
     marginLeft: 4,
   },
   buttonLabel: {
+    fontFamily: "FiraB",
     fontSize: 16,
     color: "#424242",
-    marginLeft: 8,
-    fontWeight: "bold",
   },
 });
 

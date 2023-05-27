@@ -1,33 +1,38 @@
-import React from 'react';
-import { TouchableOpacity, Text, StyleSheet } from 'react-native';
+import React from "react";
+import { TouchableOpacity, Text, StyleSheet } from "react-native";
 
 function ExerciseFilterButton(props) {
   const { label, active, onPress } = props;
 
   return (
-    <TouchableOpacity style={[styles.containerFilter, active && styles.activeFilter]} onPress={() => onPress(label)}>
+    <TouchableOpacity
+      style={[styles.containerFilter, active && styles.activeFilter]}
+      onPress={() => onPress(label)}
+    >
       <Text style={[styles.label, active && styles.activeLabel]}>{label}</Text>
     </TouchableOpacity>
-  )
-};
+  );
+}
 
 const styles = StyleSheet.create({
   containerFilter: {
     borderRadius: 16,
-    paddingVertical: 8,
+    paddingVertical: 3,
     paddingHorizontal: 10,
-    backgroundColor: '#E0E0E0'
+    backgroundColor: "#4C00A4",
+    borderColor: "#f5f5f551",
+    borderWidth: 1,
   },
   activeFilter: {
-    backgroundColor: '#4C00A4'
+    backgroundColor: "#E0E0E0",
   },
   label: {
-    color: '#424242',
-    fontSize: 14,
-    fontWeight: 'bold'
+    fontFamily: "FiraM",
+    color: "#F5F5F5",
+    fontSize: 15,
   },
   activeLabel: {
-    color: '#F5F5F5'
+    color: "#424242",
   },
 });
 

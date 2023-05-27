@@ -5,11 +5,13 @@ import {
   StyleSheet,
   Keyboard,
   TouchableWithoutFeedback,
-  Button,
+  TouchableOpacity,
   FlatList,
   ScrollView,
+  SafeAreaView,
 } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { useNavigation } from "@react-navigation/native";
 
 import ExerciseForm from "../components/ExerciseForm";
 import BlockCard from "../components/BlockCard";
@@ -23,7 +25,7 @@ import {
   getRecordByExerciseId,
 } from "../api/workout";
 import Context from "../utils/context";
-
+// TODO: Hacer componente Button
 const Exercise = (props) => {
   const { user } = useContext(Context);
   const {
@@ -40,6 +42,7 @@ const Exercise = (props) => {
   const [latestRecords, setLatestRecords] = useState([]);
   const [record, setRecord] = useState({});
   const [loaded, setLoaded] = useState(false);
+  const navigation = useNavigation();
 
   const handleSaveBlock = async () => {
     try {
@@ -154,117 +157,145 @@ const Exercise = (props) => {
   }, [filter]);
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <>
-        <View style={styles.container}>
-          <View
-            style={[
-              styles.exerciseContainer,
-              styles[exercise?.muscleGroup?.toLowerCase()],
-            ]}
-          >
-            <View>
-              <Text style={styles.title}>{exercise?.name || ""}</Text>
-              <Text style={styles.subtitle}>{exercise?.muscleGroup || ""}</Text>
-            </View>
-            {(latestRecords?.length > 0 || filter) && (
-              <View style={styles.filterContainer}>
-                <Icon
-                  name={filter ? "filter-check" : "filter-outline"}
-                  color="#D3D3D3"
-                  size={30}
-                  onPress={() => setModalFilter(true)}
-                />
-              </View>
-            )}
-          </View>
+    <SafeAreaView style={styles.container}>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <>
           <ScrollView>
-            {!showForm && (
-              <View style={styles.buttonsContainer}>
-                {currentBlock.exercise ? (
-                  <>
-                    <Button
-                      color="#4C00A4"
-                      onPress={() => handleSaveBlock()}
-                      title="Terminar Bloque"
-                    />
-                    <Button
-                      color="#4C00A4"
-                      onPress={() => setShowForm(true)}
-                      title="Agregar Serie"
-                    />
-                  </>
-                ) : (
-                  <Button
-                    color="#4C00A4"
-                    onPress={() => setShowForm(true)}
-                    title="Comenzar Bloque"
+            <View
+              style={[
+                styles.headerContainer,
+                styles[exercise?.muscleGroup?.toLowerCase()],
+              ]}
+            >
+              <View style={styles.header}>
+                <View style={styles.backIcon}>
+                  <Icon
+                    name="chevron-left"
+                    color="#D3D3D3"
+                    size={30}
+                    onPress={() => navigation.navigate("Exercises")}
                   />
-                )}
-              </View>
-            )}
-            {showForm && (
-              <ExerciseForm
-                handleFormSubmit={handleAddSerie}
-                variation={exercise?.variation}
-                setShowForm={setShowForm}
-                isBlock={!currentBlock.exercise}
-              />
-            )}
-            {currentBlock.exercise && (
-              <View style={styles.sectionContainer}>
-                <Text style={styles.sectionTitle}>Bloque Actual</Text>
-                <View style={styles.blockContainer}>
-                  <BlockCard block={currentBlock} current />
+                </View>
+                <View>
+                  <Text style={styles.title}>{exercise?.name || ""}</Text>
+                  <Text style={styles.subtitle}>
+                    {exercise?.muscleGroup || ""}
+                  </Text>
                 </View>
               </View>
-            )}
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Ultimos Registros</Text>
-              {latestRecords?.length > 0 ? (
-                <View style={styles.blockContainer}>
-                  {latestRecords.map((item, index) => (
-                    <BlockCard key={index} block={item} />
-                  ))}
+              {(latestRecords?.length > 0 || filter) && (
+                <View style={styles.filterContainer}>
+                  <Icon
+                    name={filter ? "filter-check" : "filter-outline"}
+                    color="#D3D3D3"
+                    size={30}
+                    onPress={() => setModalFilter(true)}
+                  />
                 </View>
-              ) : (
-                <Text style={styles.paragraph}>No hay registros</Text>
               )}
-              {/* <FlatList
+            </View>
+            <View>
+              {!showForm && (
+                <View style={styles.buttonsContainer}>
+                  {currentBlock.exercise ? (
+                    <>
+                      <TouchableOpacity
+                        style={styles.button}
+                        onPress={() => handleSaveBlock()}
+                      >
+                        <Text style={styles.buttonLabel}>Terminar Bloque</Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        style={styles.button}
+                        onPress={() => setShowForm(true)}
+                      >
+                        <Text style={styles.buttonLabel}>Agregar Serie</Text>
+                      </TouchableOpacity>
+                    </>
+                  ) : (
+                    <TouchableOpacity
+                      style={styles.button}
+                      onPress={() => setShowForm(true)}
+                    >
+                      <Text style={styles.buttonLabel}>Comenzar Bloque</Text>
+                    </TouchableOpacity>
+                  )}
+                </View>
+              )}
+              {showForm && (
+                <ExerciseForm
+                  handleFormSubmit={handleAddSerie}
+                  variation={exercise?.variation}
+                  setShowForm={setShowForm}
+                  isBlock={!currentBlock.exercise}
+                />
+              )}
+              {currentBlock.exercise && (
+                <View style={styles.sectionContainer}>
+                  <Text style={styles.sectionTitle}>Bloque Actual</Text>
+                  <View style={styles.blockContainer}>
+                    <BlockCard block={currentBlock} current />
+                  </View>
+                </View>
+              )}
+              <View style={styles.sectionContainer}>
+                <Text style={styles.sectionTitle}>Ultimos Registros</Text>
+                {latestRecords?.length > 0 ? (
+                  <View style={styles.blockContainer}>
+                    {latestRecords.map((item, index) => (
+                      <BlockCard key={index} block={item} />
+                    ))}
+                  </View>
+                ) : (
+                  <Text style={styles.paragraph}>No hay registros</Text>
+                )}
+                {/* <FlatList
                 horizontal
                 data={latestRecords}
                 renderItem={item => <BlockCard block={item} />}
                 keyExtractor={(item, index) => index}
               /> */}
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Record</Text>
-              {record?.id ? (
-                <BlockCard block={record} current />
-              ) : (
-                <Text style={styles.paragraph}>No hay records</Text>
-              )}
+              </View>
+              <View style={styles.sectionContainer}>
+                <Text style={styles.sectionTitle}>Record</Text>
+                {record?.id ? (
+                  <BlockCard block={record} current />
+                ) : (
+                  <Text style={styles.paragraph}>No hay records</Text>
+                )}
+              </View>
             </View>
           </ScrollView>
-        </View>
-        <ExerciseFilterPopUp
-          isVisible={modalFilter}
-          addFilter={handleAddFilter}
-          cleanFilter={handleCleanFilter}
-          currentFilter={filter}
-          onClose={setModalFilter}
-          variation={exercise?.variation || []}
-        />
-      </>
-    </TouchableWithoutFeedback>
+          <ExerciseFilterPopUp
+            isVisible={modalFilter}
+            addFilter={handleAddFilter}
+            cleanFilter={handleCleanFilter}
+            currentFilter={filter}
+            onClose={setModalFilter}
+            variation={exercise?.variation || []}
+          />
+        </>
+      </TouchableWithoutFeedback>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     backgroundColor: "#F5F5F5",
   },
-  exerciseContainer: {
+  header: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 8,
+  },
+  backIcon: {
+    justifyContent: "center",
+    marginRight: 16,
+  },
+  headerContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
@@ -278,6 +309,19 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
   },
+  button: {
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderColor: "#4C00A4",
+    borderWidth: 1,
+    borderStyle: "solid",
+    borderRadius: 4,
+  },
+  buttonLabel: {
+    color: "#4C00A4",
+    fontSize: 18,
+    fontFamily: "FiraR",
+  },
   sectionContainer: {
     paddingHorizontal: 16,
     marginBottom: 16,
@@ -287,14 +331,13 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   title: {
+    fontFamily: "FiraB",
     fontSize: 24,
-    fontWeight: "bold",
     color: "#F5F5F5",
-    marginBottom: 4,
   },
   subtitle: {
+    fontFamily: "FiraM",
     fontSize: 16,
-    fontWeight: "bold",
     color: "#D3D3D3",
   },
   paragraph: {
@@ -303,8 +346,8 @@ const styles = StyleSheet.create({
     marginVertical: 4,
   },
   sectionTitle: {
+    fontFamily: "FiraB",
     fontSize: 16,
-    fontWeight: "bold",
     marginBottom: 6,
     color: "#424242",
   },

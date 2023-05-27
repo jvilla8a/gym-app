@@ -12,16 +12,21 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 import LoginForm from "../components/LoginForm";
 import RegisterForm from "../components/RegisterForm";
+import useFonts from "../hooks/useFont";
 
 const LogIn = () => {
   const [showRegisterForm, setShowRegisterForm] = useState(false);
+  const { onLayoutRootView } = useFonts();
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+    <TouchableWithoutFeedback
+      onPress={Keyboard.dismiss}
+      onLayout={onLayoutRootView}
+    >
       <KeyboardAvoidingView style={styles.container}>
         <View style={styles.titleContainer}>
           <Text style={styles.title}>N-GYM</Text>
-          <Text style={styles.subtitle}>!!!te damos la bienvenida!!!</Text>
+          <Text style={styles.subtitle}>🔥 Te da la bienvenida 🔥</Text>
         </View>
         <View>
           <View style={styles.loginContainer}>
@@ -46,7 +51,7 @@ const LogIn = () => {
               onPress={() => setShowRegisterForm(!showRegisterForm)}
             >
               {!showRegisterForm && (
-                <Icon name="account-plus" size={30} color="#424242" />
+                <Icon name="account-plus" size={30} color="#F5F5F5" />
               )}
               <View style={styles.buttonLabelContainer}>
                 <Text style={styles.buttonLabel}>
@@ -69,18 +74,16 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     alignItems: "center",
   },
-  titleContainer: {
-    justifyContent: "center",
-  },
+  titleContainer: {},
   title: {
-    fontSize: 76,
-    fontWeight: "bold",
+    fontFamily: "BebasNeue",
+    fontSize: 112,
     color: "#F5F5F5",
     textAlign: "center",
   },
   subtitle: {
+    fontFamily: "FiraL",
     fontSize: 20,
-    fontWeight: "bold",
     color: "#D3D3D3",
     textAlign: "center",
   },
@@ -88,7 +91,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
   },
   button: {
-    backgroundColor: "#F5F5F5",
+    backgroundColor: "#4C00A451",
     width: "100%",
     flexDirection: "row",
     justifyContent: "center",
@@ -103,10 +106,9 @@ const styles = StyleSheet.create({
     marginLeft: 4,
   },
   buttonLabel: {
+    fontFamily: "FiraB",
     fontSize: 16,
-    color: "#424242",
-    marginLeft: 8,
-    fontWeight: "bold",
+    color: "#F5F5F5",
   },
 });
 

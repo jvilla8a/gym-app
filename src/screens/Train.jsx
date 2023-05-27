@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useNavigation } from "@react-navigation/native";
 import { StyleSheet, SafeAreaView, Platform, StatusBar } from "react-native";
 
 import ExercisesList from "../components/ExercisesList";
@@ -8,13 +7,12 @@ import ExerciseFilterButton from "../components/ExerciseFilterButton";
 import useLoader from "../hooks/useLoader";
 import { getExercises } from "../api/exercise";
 import { MUSCLE_GROUP } from "../utils/muscleGroups";
-
+// TODO: Mejorar navigation
 const Train = () => {
   const [exercises, setExercises] = useState([]);
   const { setLoader } = useLoader();
   const [filteredExercises, setFilteredExercises] = useState([]);
   const [activeFilter, setActiveFilter] = useState("");
-  const navigation = useNavigation();
 
   const handleFilter = (muscleGroup) => {
     if (muscleGroup.toLowerCase() === activeFilter) {
@@ -26,10 +24,6 @@ const Train = () => {
         exercises.filter((exercise) => exercise.muscleGroup === muscleGroup)
       );
     }
-  };
-
-  const handleNavigation = (params) => {
-    navigation.navigate("Exercise", params);
   };
 
   const handleGetExercises = async () => {
@@ -62,10 +56,7 @@ const Train = () => {
           />
         ))}
       </ExerciseFilter>
-      <ExercisesList
-        data={filteredExercises}
-        handleNavigation={handleNavigation}
-      />
+      <ExercisesList data={filteredExercises} />
     </SafeAreaView>
   );
 };
